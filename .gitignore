@@ -40,3 +40,5 @@ Thumbs.db
 
 #data
 *.csv
+#model --may remove this line to preserve the model
+*.pkl
