@@ -42,3 +42,4 @@ Thumbs.db
 *.csv
 #model --may remove this line to preserve the model
 *.pkl
+*.npy
