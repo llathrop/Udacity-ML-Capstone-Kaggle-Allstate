@@ -39,11 +39,13 @@ https://en.wikipedia.org/wiki/Ensemble_learning#Stacking
 <div>
 ### Benchmark Model
 
-The base model for this project is planned as a simple linear regression based on the data, with minimal pre-proccessing only, and submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. 
+The base model for this project is planned as a simple linear regression based on the data, with minimal pre-proccessing only, and run first with the initial data minus a validation set and once scoring appropriatly, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. 
 <div>
 ### Evaluation Metrics
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competetion. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner.
+
+MAE score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets:     mean(abs(real_y-predicted_y)))
 
 Additionaly we will track prediction time for the scores acheived, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 <div>
