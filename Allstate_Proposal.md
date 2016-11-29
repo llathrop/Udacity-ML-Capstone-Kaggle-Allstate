@@ -29,7 +29,13 @@ As we can't verify the test set directly, we will further break out a validation
 <div>
 ### Solution Statement
 
-The model will output a predicted 'loss' for each claim in the test data. This data will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.  
+We will use various pre-processing techniques to generate new features and otherwise prepare the data. Following this we will use various sklearn regressors, optimized with grid search, and xgbost to generate the first layer of an ensemble model using a stacking. The following layers will use similiar regressions on the output of the prior layers, with the final layer providing a final prediction for each input.
+
+The model will output a predicted 'loss' for each claim in the validation data. Once trained and satisfactory scores are obtained with the validation data, the model will be retrained on the full data set and predictions made on the test data.The result will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.  
+
+http://xgboost.readthedocs.io/
+http://scikit-learn.org/
+https://en.wikipedia.org/wiki/Ensemble_learning#Stacking
 <div>
 ### Benchmark Model
 
