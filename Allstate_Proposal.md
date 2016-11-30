@@ -33,8 +33,8 @@ We will use various pre-processing techniques to generate new features and other
 
 The model will output a predicted 'loss' for each claim in the validation data. Once trained and satisfactory scores are obtained with the validation data, the model will be retrained on the full data set and predictions made on the test data.The result will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.  
 
-http://xgboost.readthedocs.io/
-http://scikit-learn.org/
+http://xgboost.readthedocs.io/<br>
+http://scikit-learn.org/<br>
 https://en.wikipedia.org/wiki/Ensemble_learning#Stacking
 <div>
 ### Benchmark Model
@@ -45,7 +45,7 @@ The base model for this project is planned as a simple linear regression based o
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competetion. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner.
 
-MAE score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets:     mean(abs(real_y-predicted_y)))
+MAE score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets:     mean(abs(each_real_y-each_predicted_y)))
 
 Additionaly we will track prediction time for the scores acheived, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 <div>
