@@ -87,4 +87,4 @@ The project may be broken into several categories:
  The model score will be compared to the benchmark, along with the run time. The train time of each will be compared and evaluated in the context of use for updating the model as new data comes in. The predict time will be evaluated in the context of providing agents/customers with results for use in claims.
 
 
-## Submitted on: UNSUBMITTED
+## accepted:12/01/2016
