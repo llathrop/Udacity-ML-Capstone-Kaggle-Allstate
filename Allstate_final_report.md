@@ -46,11 +46,29 @@ In this section, you will be expected to analyze the data you are using for the 
 - _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
 - _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
 
+The dataset is provided by the competition organizer, and is anonymized, including removing labels from each data point. We are to assume that this data was gathered in the normal course of the business of prior insurance claims, and will be continue to be gathered so that new predictions may be made. This means that we may not use intuition to provide new features. We are to assume that the data is relevant to the problem and accurate. We may test this relevance, or use methods such as PCA to examine the most relevant labels.
+
+We are provided training and test data set, where the training set includes the "loss" field that we are attempting to predict, and test does not. When looking at the common features, we see 116 categorical and 14 continuous features. The features seem well matched between train and test, with similar mean/standard deviation/min/max. The train set has 188318 rows, and the test set has 125546.
+
+**Data sample:**
+
+    |id  |cat1|cat2|cat3|cat4|cat5|cat6|cat7|cat8|cat9|....|cont6|cont7|cont8|cont9|cont10|cont11|cont12|cont13|cont14|loss
+ ---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:----|:----|:----|:-----|:-----|:-----|:-----|:-----|:----|:---
+0 |	1|A|B|A|B|A|A|A|A|B|...|0.718367|0.335060|0.30260|0.67135|0.83510|0.569745|0.594646|0.822493|0.714843|2213.18
+1	| 2|A|B|A|A|A|A|A|A|B|...|.438917|0.436585|0.60087|0.35127|0.43919|0.338312|0.366307|0.611431|0.304496|1283.60
+2	| 5|A|B|A|A|B|A|A|A|B|...|.289648|0.315545|0.27320|0.26076|0.32446|0.381398|0.373424|0.195709|0.774425|3005.09
+3	| 10|B|B|A|B|A|A|A|A|B|...|.440945|0.391128|0.31796|0.32128|0.44467|.327915|0.321570|0.605077|0.602642|939.85
+4	| 11|A|B|A|B|A|A|A|A|B|...|0.178193|0.247408|0.24564|0.22089|0.21230|0.204687|0.202213|0.246011|0.432606|2763.85
+
+
 ### Exploratory Visualization
 In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
 - _Have you visualized a relevant characteristic or feature about the dataset or input data?_
 - _Is the visualization thoroughly analyzed and discussed?_
 - _If a plot is provided, are the axes, title, and datum clearly defined?_
+
+Plan is to present several plots based on data, including a histogram for cont and categorical values, scatterplots for cont, and more.
+see DataExploration.ipynb
 
 ### Algorithms and Techniques
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
@@ -58,11 +76,20 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Are the techniques to be used thoroughly discussed and justified?_
 - _Is it made clear how the input data or datasets will be handled by the algorithms and techniques chosen?_
 
+We will use various pre-processing techniques to generate new features and otherwise prepare the data. Following this we will use various sklearn regressors, optimized with grid search, and xgbost to generate the first layer of an ensemble model using a stacking. The following layers will use similar regressions on the output of the prior layers, with the final layer providing a final prediction for each input.
+
+The model will output a predicted 'loss' for each claim in the validation data. Once trained and satisfactory scores are obtained with the validation data, the model will be retrained on the full data set and predictions made on the test data. The result will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.
+
+http://xgboost.readthedocs.io/
+http://scikit-learn.org/
+https://en.wikipedia.org/wiki/Ensemble_learning#Stacking
+
 ### Benchmark
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
 - _Has some result or value been provided that acts as a benchmark for measuring performance?_
 - _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_
 
+The base model for this project is planned as a simple linear regression based on the data, with minimal pre-processing only, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model.
 
 ## III. Methodology
 _(approx. 3-5 pages)_
