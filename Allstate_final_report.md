@@ -100,6 +100,19 @@ In this section, all of your preprocessing steps will need to be clearly documen
 - _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
 - _If no preprocessing is needed, has it been made clear why?_
 
+Several tasks will take place 
+* categorical data will be transformed to numerical (label encoded), using factorize
+* all data will be MinMax scaled, 0-1
+* unneeded features will be removed(ex:id)
+* data will be transformed to final state for handoff to the model (numpy array)
+
+additionally:
+* new features will be created:
+    * clusters for each row, for just continous features, for just categorical
+    * various features may be modified due to relevance.
+* features will be analyzed for relevance.
+The benchmark model will be trained and tested with and with out these added features
+
 ### Implementation
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
