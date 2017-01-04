@@ -100,24 +100,31 @@ In this section, all of your preprocessing steps will need to be clearly documen
 - _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
 - _If no preprocessing is needed, has it been made clear why?_
 
-Several tasks will take place 
-* categorical data will be transformed to numerical (label encoded), using factorize
-* all data will be MinMax scaled, 0-1
+Several tasks take place 
+* the train/validation and test data from the contests is combined 
+* categorical data is be transformed to numerical (see LabelEncoder() function), using factorize
+* all data is MinMax scaled, 0-1, using the sklean MinMaxScaler() 
 * unneeded features will be removed(ex:id)
 * data will be transformed to final state for handoff to the model (numpy array)
 
 additionally:
 * new features will be created:
-    * clusters for each row, for just continous features, for just categorical
+    * clusters for each row, for just continous features, for just categorical. clusters are computed by first taking a subset of the      data and calculating the Kmeans cluster for each, with startingClusterSize=int(len(data)*.075). The cluster centers for this are        then used to calculate the number of actual clusters with Meanshift(). Kmeans is then re-run again using this number of clusters.        This is done to provide a significant performance boost over using either one on it's own.
+    see :http://jamesxli.blogspot.com/2012/03/on-mean-shift-and-k-means-clustering.html
     * various features may be modified due to relevance.
-* features will be analyzed for relevance.
+* features will be analyzed for relevance using PCA(FIXME)
+
 The benchmark model will be trained and tested with and with out these added features
+
+* the data is split back into original train/validation and test segments
 
 ### Implementation
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
 - _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
+
+
 
 ### Refinement
 In this section, you will need to discuss the process of improvement you made upon the algorithms and techniques you used in your implementation. For example, adjusting parameters for certain models to acquire improved solutions would fall under the refinement category. Your initial and final solutions should be reported, as well as any significant intermediate results as necessary. Questions to ask yourself when writing this section:
