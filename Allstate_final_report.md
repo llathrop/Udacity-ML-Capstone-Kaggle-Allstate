@@ -30,11 +30,11 @@ In this section, you will need to clearly define the metrics or calculations you
 - _Are the metrics you?ve chosen to measure the performance of your models clearly discussed and defined?_
 - _Have you provided reasonable justification for the metrics chosen based on the problem and solution?_
 
-The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 25% of the train data.
+The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
 
 MAE score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirment) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
 
-Additionally, we will track prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
+Additionally, we will review prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 
 ## II. Analysis
 _(approx. 2-4 pages)_
@@ -89,7 +89,7 @@ In this section, you will need to provide a clearly defined benchmark result or 
 - _Has some result or value been provided that acts as a benchmark for measuring performance?_
 - _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_
 
-The base model for this project is planned as a simple linear regression based on the data, with minimal pre-processing only, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model.
+The benchmark model for this project is planned as a simple linear regression based on the data, with minimal pre-processing only, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model.
 
 ## III. Methodology
 _(approx. 3-5 pages)_
@@ -116,7 +116,7 @@ additionally:
 
 The benchmark model will be trained and tested with and with out these added features
 
-* the data is split back into original train/validation and test segments
+* the data is split back into original train/validation and test segments, as well as datasets based on subsets of the features: new, conts, cats, orig_only,all_features
 
 ### Implementation
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
@@ -124,15 +124,17 @@ In this section, the process for which metrics, algorithms, and techniques that 
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
 - _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
 
-To start with, we will first pick several normal SKLearn regressor, and combine them into a list for ease of use, along with several parameter/values dicts for use in grid search. We'll then split the provided train dataset into a new train and validation sets, for use in par(80/20 split). Using the new train data, we will run a grid search for each of the selected models, creating a list of regressors with parameters set from the search, and saved to disk for ease of reuse.
+Taking the data from preprocessing, we use each data set and first pick several normal SKLearn regressor, and combine them into a list for ease of use, along with several parameter/values dicts for use in grid search. We'll then split the provided train dataset into a new train and validation sets, for use in par(80/20 split). Using the new train data, we will run a grid search for each of the selected models, creating a list of regressors with parameters set from the search, and saved to disk for ease of reuse.
 
 We'll follow this by using xgb.cv() to find the best n_rounds for a set of parameters that have been manually selected and experimentally optimized. The train and validation sets are discarded, as we will now work split the entire train set into k-folds(K=5) for the first layer.
 
 for each fold we will use the current fold as the test set and train(or fit) the model on the rest of the data, x, making a prediction, y. The prediction for each fold will be made for each of the regressors that we have selected. The predictions for each fold will then be stacked together for use in the next layer. MAE (Mean Absolute Error) and prediction time are logged so that we may track progress.
 
-Due to run time, first layer models are saved and loaded if present. 
+Due to run time, first layer models are saved and loaded if present.
 
-after the predictions are made for the first layer, they are averaged and a cluster is predicted and both added as a feature to the layer.
+After the predictions are made for the first layer, they are averaged and a cluster is predicted and both added as a feature to the layer.
+
+Predictions are made at this stage for the test and validation set first layer also, and preserved.
 
 The same process is followed for layer two, but with input data being the predictions, etc from the first layer. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
 
@@ -143,6 +145,12 @@ In this section, you will need to discuss the process of improvement you made up
 - _Has an initial solution been found and clearly reported?_
 - _Is the process of improvement clearly documented, such as what techniques were used?_
 - _Are intermediate and final solutions clearly reported as the process is improved?_
+
+Each regression was found to need individual tuning to achieve results, but as we were focused the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and resuse of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
+
+At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made.
+
+The base technique of stacking was further refined by adding features via other methods, such as averaging and clustering the results of stage 1 models. Each of these was found to result in a small improvement in final score.
 
 
 ## IV. Results
@@ -155,11 +163,15 @@ In this section, the final model and any supporting qualities should be evaluate
 - _Is the model robust enough for the problem? Do small perturbations (changes) in training data or the input space greatly affect the results?_
 - _Can results found from the model be trusted?_
 
+ The final model is found to provide results inline with any individual regressor for the data. It should be able to withstand input  collected in the same manner, and in fact saw reasonable results when submitted to the competition, falling in the upper third of results, for both public and private Kaggle data sets(Note: the public set is used for testing until the contest concludes, upon which the private set is used to judge scores). It was seen that across all data sets (Validation/Train/Test), the results were similar for similar inputs.
+
 ### Justification
 In this section, your model?s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
 - _Are the final results found stronger than the benchmark result reported earlier?_
 - _Have you thoroughly analyzed and discussed the final solution?_
 - _Is the final solution significant enough to have solved the problem?_
+
+In the end we have seen that using stacking to combine the results of models has made a significant(approximatly 10%) improvement in scores as compared to the base output of the linear model. This shows that for the type of problem, stacking is a very valid way to arrive at a solution.
 
 
 ## V. Conclusion
