@@ -5,7 +5,7 @@
 Bryan Luke Lathrop
 Nov 1st, 2016
 
-<div>
+
 ### Domain Background
 This Project  will be based around the Kaggle competition detailed at:
 https://www.kaggle.com/c/allstate-claims-severity
@@ -13,11 +13,11 @@ https://www.kaggle.com/c/allstate-claims-severity
 This competition centers on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
 
 I choose this competition as it dataset and goals allow us to explore various machine learning techniques without focusing on data collection. I also believe that the techniques and goal used are very close in style to those used in industry currently, and so more applicable to future projects.
-<div>
+
 ### Problem Statement
 
 Using the provided dataset, we will use various machine learning techniques to predict the claims severity. Claim severity is expressed as a cost, where a higher cost is a higher severity. The predictions will be made on a per claim basis, and are intended to be applied to future claims as an indicator for customers/agents.
-<div>
+
 ### Datasets and Inputs
 
 The dataset is provided by the competition organizer, and is anonymized, including removing labels from each data point. We are to assume that this data was gathered in the normal course of the business of prior insurance claims, and will be continue to be gathered so that new predictions may be made. This means that we may not use intuition to provide new features. We are to assume that the data is relevant to the problem and accurate. We may test this relevance, or use methods such as PCA to examine the most relevant labels. 
@@ -26,7 +26,6 @@ We are provided training and test data set, where the training set includes the 
 
 As we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 25% of the train data.
 
-<div>
 ### Solution Statement
 
 We will use various pre-processing techniques to generate new features and otherwise prepare the data. Following this we will use various sklearn regressors, optimized with grid search, and xgbost to generate the first layer of an ensemble model using a stacking. The following layers will use similar regressions on the output of the prior layers, with the final layer providing a final prediction for each input.
@@ -36,11 +35,11 @@ The model will output a predicted 'loss' for each claim in the validation data. 
 http://xgboost.readthedocs.io/<br>
 http://scikit-learn.org/<br>
 https://en.wikipedia.org/wiki/Ensemble_learning#Stacking
-<div>
+
 ### Benchmark Model
 
 The base model for this project is planned as a simple linear regression based on the data, with minimal pre-processing only, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. 
-<div>
+
 ### Evaluation Metrics
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner.
@@ -49,7 +48,7 @@ MAE score is defined as the mean of the absolute value of the real minus predict
 The advantage of MAE (other than being a contest requirment) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
 
 Additionally, we will track prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
-<div>
+
 ### Project Design
 
 The project may be broken into several categories:
