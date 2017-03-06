@@ -2,7 +2,7 @@
 
 ## Machine Learning Engineer Nanodegree
 
-###Capstone Project
+### Capstone Project
 
 Bryan Luke Lathrop March 6, 2017
 
