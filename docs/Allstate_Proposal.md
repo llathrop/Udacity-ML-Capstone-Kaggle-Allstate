@@ -58,7 +58,6 @@ The project may be broken into several categories:
 * Final modeling and prediction - use our chosen model and generate a score
 * Submission for scoring - submit both Benchmark model and our model for a final score. record score as well as computation times for each model
 * Evaluation of final model vs benchmark
-<div>
 
 #### Data Analysis
   We will load and examine the dataset as a panda dataframe and ensure that the test and train dataset's are similar enough for use. We will take a look at the features and make predictions about feature correlation, scaling, etc. We will also review outliers in each feature. For categorical data, we will make sure that test data is included in the train data.
