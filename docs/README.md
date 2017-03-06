@@ -6,8 +6,7 @@
 
 Bryan Luke Lathrop March 6, 2017
 
-This project encapsulates my final project for the Udacity Machine Learning Nano-degree, and is based on the Kaggle competition a:
-https://www.kaggle.com/c/allstate-claims-severity
+This project encapsulates my final project for the Udacity Machine Learning Nano-degree, and is based on the Kaggle competition, [Allstate Claims Severity](https://www.kaggle.com/c/allstate-claims-severity)
 
 The project is primarily an exercise in various machine learning techniques, with a goal of demonstrating the improvement that can be acheived by their use
 
