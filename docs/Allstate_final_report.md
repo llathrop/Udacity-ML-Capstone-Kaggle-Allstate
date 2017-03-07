@@ -71,7 +71,7 @@ Plan is to present several plots based on data, including a histogram for cont a
 see DataExploration.ipynb
 
 here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers.
-![box plot - conts](https://llathrop.github.io/udacity-ML-capstone-Kaggle-Allstate/images/DataExplore-BoxPlot-conts.png)
+![box plot - conts](images/DataExplore-BoxPlot-conts.png)
 
 ### Algorithms and Techniques
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
