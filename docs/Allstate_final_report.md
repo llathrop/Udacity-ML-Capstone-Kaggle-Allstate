@@ -147,6 +147,18 @@ In this section, you will need to provide some form of visualization that emphas
 - _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
 - _Is the visualization thoroughly analyzed and discussed?_
 - _If a plot is provided, are the axes, title, and datum clearly defined?_
+The goal of the project was to show the benefit of combining models. We can see this by taking a look at these results, and comparing lowest MAE
+
+
+First we see the results with a standard Linear regression. results are shown for each dataset so that we can see the different scores
+![Linear-MAE_per_dataset.png](images/Linear-MAE_per_dataset.png)
+
+Next we have a look at results of each fold, for each of the regressors used...This is roughly equivilant to how they would perform without further stacking.
+![Layer1-per_run_MAE.png](images/Layer1-per_run_MAE.png)
+
+And finally, a look at each fold as we run through layer 2 & 3. We can see that we actually get a better score in layer 2, using a linear regression on the results from the first layer
+![Layer2-3_per run MAE.png](images/Layer2-3_per run MAE.png)
+
 
 ### Reflection
 In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
