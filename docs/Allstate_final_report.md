@@ -126,20 +126,15 @@ The final model is found to provide results inline with any individual regressor
 
 ### Justification
 
-In this section, your model?s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
-- _Are the final results found stronger than the benchmark result reported earlier?_
-- _Have you thoroughly analyzed and discussed the final solution?_
-- _Is the final solution significant enough to have solved the problem?_
-
 In the end we have seen that using stacking to combine the results of models has made a significant improvement in scores as compared to the base output of the linear model. This shows that for the type of problem, stacking is a very valid way to arrive at a more accurate solution. 
 
 In our Linear regression benchmark against the full train data we see and an MAE of 1288 for the original data set and 1287 for the data with new features.
 
-In our stacked regression against all train data and the combined datasets we see  an MAE of 1132. 
+In our stacked regression against all train data and the combined datasets we see  an MAE of 1132. It was seen that adding a further layer beyond the 2nd didn't contribute to a better score, and as such the best scoring regressor from layer 2 was used for the results and submission to contest 
 
 These scores were also validated via submission to Kaggle. For the linear set, the best score were:(Private)1272.27333, (Public)1264.60772. For the Stacked set, the best score was: (Private)1132.97728, (Public)1119.72524. These match well with our validation set and training set scores.
 
-using these # we can see an approximatly 8-9% improvement in score.
+Using these numbers we can see an approximatly 11-12% improvement in score over our benchmark, and a 7% improvement over the best regressor score seen in layer 1.
 
 ## V. Conclusion
 
