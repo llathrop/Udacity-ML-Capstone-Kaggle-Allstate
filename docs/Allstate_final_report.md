@@ -86,6 +86,7 @@ The benchmark model will be trained and tested with and with out these added fea
 for details, please review: [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb)
 
 ### Implementation
+
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
@@ -124,6 +125,7 @@ After the initial version of stacking with linear/xgb/ExtraTreesRegressor as the
 The final model is found to provide results inline with any individual regressor for the data. It should be able to withstand input  collected in the same manner, and in fact saw reasonable results when submitted to the competition, falling in the upper third of results, for both public and private Kaggle data sets(Note: the public set is used for testing until the contest concludes, upon which the private set is used to judge scores). It was seen that across all data sets (Validation/Train/Test), the results were similar for similar inputs.
 
 ### Justification
+
 In this section, your model?s final solution and its results should be compared to the benchmark you established earlier in the project using some type of statistical analysis. You should also justify whether these results and the solution are significant enough to have solved the problem posed in the project. Questions to ask yourself when writing this section:
 - _Are the final results found stronger than the benchmark result reported earlier?_
 - _Have you thoroughly analyzed and discussed the final solution?_
@@ -143,10 +145,7 @@ using these # we can see an approximatly 8-9% improvement in score.
 _(approx. 1-2 pages)_
 
 ### Free-Form Visualization
-In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant or important quality about the problem, dataset, input data, or results?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_
+
 The goal of the project was to show the benefit of combining models. We can see this by taking a look at these results, and comparing lowest MAE
 
 
