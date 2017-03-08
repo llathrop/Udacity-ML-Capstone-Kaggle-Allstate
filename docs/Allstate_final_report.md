@@ -150,13 +150,13 @@ In this section, you will need to provide some form of visualization that emphas
 The goal of the project was to show the benefit of combining models. We can see this by taking a look at these results, and comparing lowest MAE
 
 
-First we see the results with a standard Linear regression. results are shown for each dataset so that we can see the different scores
+First we see the results with a standard Linear regression. Results are shown for each dataset so that we can see the different scores. We can clearly see that adding data give a better score, and although harder to see, that the created features improved the score
 ![Linear-MAE_per_dataset.png](images/Linear-MAE_per_dataset.png)
 
-Next we have a look at results of each fold, for each of the regressors used...This is roughly equivilant to how they would perform without further stacking.
+Next we have a look at results of each fold, for each of the regressors used...This is roughly equivilant to how they would perform without further stacking. We again see the improvment of more data, and we can also see that XGB gives the lowest score of any regressor we have tried.
 ![Layer1-per_run_MAE.png](images/Layer1-per_run_MAE.png)
 
-And finally, a look at each fold as we run through layer 2 & 3. We can see that we actually get a better score in layer 2, using a linear regression on the results from the first layer
+And finally, a look at each fold as we run through layer 2 & 3. We can see that we actually get a better score in layer 2, using a linear regression on the results from the first layer. Using this it was determined that adding layer 3 did not contribute to the final product, and in the end the best submission was based on the linear regression from layer 2.
 ![Layer2-3_per run MAE.png](images/Layer2-3_per run MAE.png)
 
 
