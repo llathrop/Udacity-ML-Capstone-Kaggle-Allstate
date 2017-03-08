@@ -6,7 +6,7 @@ Bryan Luke Lathrop - March 7th, 2017
 
 ### Project Overview
 
-This project will be based around the Kaggle competition detailed at: https://www.kaggle.com/c/allstate-claims-severity
+This project will be based around the Kaggle competition detailed at: [allstate-claims-severity](https://www.kaggle.com/c/allstate-claims-severity)
 
 This competition centers on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
 
