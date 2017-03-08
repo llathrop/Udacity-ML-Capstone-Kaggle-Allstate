@@ -1,4 +1,4 @@
-# udacity-ML-capstone-Kaggle-Allstate
+# Udacity-ML-Capstone-Kaggle-Allstate
 
 ## Machine Learning Engineer Nanodegree
 
