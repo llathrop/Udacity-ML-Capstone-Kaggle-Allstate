@@ -142,7 +142,6 @@ These scores were also validated via submission to Kaggle. For the linear set, t
 using these # we can see an approximatly 8-9% improvement in score.
 
 ## V. Conclusion
-_(approx. 1-2 pages)_
 
 ### Free-Form Visualization
 
