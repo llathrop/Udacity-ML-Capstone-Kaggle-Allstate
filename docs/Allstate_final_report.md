@@ -6,9 +6,9 @@ Bryan Luke Lathrop - March 7th, 2017
 
 ### Project Overview
 
-This project will be based around the Kaggle competition detailed at: [allstate-claims-severity](https://www.kaggle.com/c/allstate-claims-severity)
+This project is based around the Kaggle competition detailed at: [allstate-claims-severity](https://www.kaggle.com/c/allstate-claims-severity)
 
-This competition centers on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
+This competition centered on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
 
 I choose this competition as it dataset and goals allow us to explore various machine learning techniques without focusing on data collection. I also believe that the techniques and goal used are very close in style to those used in industry currently, and so more applicable to future projects.
 
@@ -18,9 +18,9 @@ Using the provided dataset, we will use various machine learning techniques to p
 
 ### Metrics
 
-The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using MAE for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
+The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using [MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
 
-MAE score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirment) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
+[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirment) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
 
 Additionally, we will review prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 
@@ -65,7 +65,7 @@ The model will output a predicted 'loss' for each claim in the validation data. 
 
 ### Benchmark
 
-The benchmark model for this project is planned as a simple linear regression based on the data, with the same pre-processing, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. 
+The benchmark model for this project is a simple linear regression based on the data, with the same pre-processing, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. We'll also run the benchmark against the various datasets created during preproccessing, to demonstrate the effects it has, and that this didn't create a benchmark better that the final model. In other words we will demonstrate that the score improvement is of the final model is not due to pre-processing.
 
 ## III. Methodology
 
@@ -106,10 +106,11 @@ Predictions are made at this stage for the test and validation set first layer a
 
 At this point, we are able to use the the models trained in each layer to make predictions for the test data, which follows the same cycle to the the third layer, where our final layer is predicted and output.
 */FIXME - rewrite for detail above*
+[JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb)
 
 ### Refinement
 
-Each regression was found to need individual tuning to achieve results, but as we were focused the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and resuse of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
+Each regression was found to need individual tuning to achieve results, but as we were focused on the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and resuse of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
 
 At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made.
 
@@ -122,7 +123,7 @@ After the initial version of stacking with linear/xgb/ExtraTreesRegressor as the
 
 ### Model Evaluation and Validation
 
-The final model is found to provide results inline with any individual regressor for the data. It should be able to withstand input  collected in the same manner, and in fact saw reasonable results when submitted to the competition, falling in the upper third of results, for both public and private Kaggle data sets(Note: the public set is used for testing until the contest concludes, upon which the private set is used to judge scores). It was seen that across all data sets (Validation/Train/Test), the results were similar for similar inputs.
+The final model is found to provide results inline with any individual regressor for the data. It should be able to withstand input  collected in the same manner, and in fact saw reasonable results when submitted to the competition, falling in the upper third of results, for both public and private Kaggle data sets(Note: the public set is used for testing until the contest concludes, upon which the private set is used to judge scores). It was seen that across all data sets (Validation/Train/Test), the results were similar for similar inputs. It should be considered that this process can add prohibitive time to the process, especially in the training stage.
 
 ### Justification
 
@@ -163,7 +164,7 @@ The project presented several challenges, namely automating the training/predict
 
 In addition, many of the models have relativly long training/prediction times. This affects the project in several places, as training/prediction is a natural part of hyperparameter optimization, and we used many different data sets. although a full timing was never conducted, I would estimate that on the hardware I used (32-core Google Cloud - Compute Engine), to regenerate my results would take in the area of a week. To mitigate this, I cached various results, and loaded them if present.
 
-In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectivenes of the stacking method. Specifically Stacking seems to be one method that should be used in general practise, when an improvement in score may not be possible from using a single model.
+In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectivenes of the stacking method. Specifically, Stacking seems to be one method that should be used in general practise, when an improvement in score may not be possible from using a single model.
 
 ### Improvement
 
