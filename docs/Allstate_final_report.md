@@ -166,10 +166,19 @@ In addition, many of the models have relativly long training/prediction times. T
 In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectivenes of the stacking method. Specifically Stacking seems to be one method that should be used in general practise, when an improvement in score may not be possible from using a single model.
 
 ### Improvement
-In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
-- _Are there further improvements that could be made on the algorithms or techniques you used in this project?_
-- _Were there algorithms or techniques you researched that you did not know how to implement, but would consider using if you knew how?_
-- _If you used your final solution as the new benchmark, do you think an even better solution exists?_
+
+To further improve the project implementation, we would  approach three basic areas:
+* notebooks:
+   The project evolved as a series of jupyter notebooks, and remained that way throughout implementation. While a wonderful way to iterate code, it does not lend itself to repeat or automated use. A first, simple way to improve the project is to move most or all of the code into regular python scripts, and break some of the widely used and copied portions off into their own libraries
+* code organization:
+   Related to the codes evolution as a notebook, significant re-factoring of the code would be suggested to allow for improved readability/maintainability. Especially related to the fit and predict aspects, which could be moved into a new class that might take a data set in and fit it to each of the models, predict, etc.
+   
+*However, most benefits to the score performance would be acheived by:*   
+
+* more models:
+   By adding even more models to the first layer we would expect to see our best performance improvement in score. Improvements are likely to be seen even by using similar models, but fit with different hyperparameters, such that they respond to different aspects of the data. This project followed guidlines from a Kaggle competition, and the winners of the competition used in the area of 80 or more models, fit to the data with and without additional generated features. 
+   
+I think that it's clear that while this implementation is an improvement over the benchmark choosen, further improvement is firmly within reach by addressing the areas mentioned above.
 
 -----------
 
