@@ -154,11 +154,16 @@ And finally, a look at each fold as we run through layer 2 & 3. We can see that 
 
 
 ### Reflection
-In this section, you will summarize the entire end-to-end problem solution and discuss one or two particular aspects of the project you found interesting or difficult. You are expected to reflect on the project as a whole to show that you have a firm understanding of the entire process employed in your work. Questions to ask yourself when writing this section:
-- _Have you thoroughly summarized the entire process you used for this project?_
-- _Were there any interesting aspects of the project?_
-- _Were there any difficult aspects of the project?_
-- _Does the final model and solution fit your expectations for the problem, and should it be used in a general setting to solve these types of problems?_
+
+In this project we have demonstrated the benefits of stacking several models to improve the final score, which also demonstrated the effeciveness of the individual models. The individual models were optimized via methods such as grid-search and then fit to various pre-processed datasets. The predictions of these models were then "stacked" and a further model was optomized and fit to the new data.
+
+While the improvement in score from the stacking was interesting, I found the optomization of each model in layer 1 to be the more interesting portion of the project.Although this tuning didn't allow a model to go below the stacked score, it would would in-turn drop the final stacked score by several points.
+
+The project presented several challenges, namely automating the training/prediction of several different models, and minimizing time spent. Each model required different tuning and some organization was required to allow for that. One model(XGB), was not able to easily be matched to the style of the others, and had to be dealt with as an exception.
+
+In addition, many of the models have relativly long training/prediction times. This affects the project in several places, as training/prediction is a natural part of hyperparameter optimization, and we used many different data sets. although a full timing was never conducted, I would estimate that on the hardware I used (32-core Google Cloud - Compute Engine), to regenerate my results would take in the area of a week. To mitigate this, I cached various results, and loaded them if present.
+
+In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectivenes of the stacking method. Specifically Stacking seems to be one method that should be used in general practise, when an improvement in score may not be possible from using a single model.
 
 ### Improvement
 In this section, you will need to provide discussion as to how one aspect of the implementation you designed could be improved. As an example, consider ways your implementation can be made more general, and what would need to be modified. You do not need to make this improvement, but the potential solutions resulting from these changes are considered and compared/contrasted to your current solution. Questions to ask yourself when writing this section:
