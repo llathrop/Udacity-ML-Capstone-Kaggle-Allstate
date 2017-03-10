@@ -45,9 +45,6 @@ We are provided training and test data set, where the training set includes the 
 
 ### Exploratory Visualization
 
-Plan is to present several plots based on data, including a histogram for cont and categorical values, scatterplots for cont, and more.
-see DataExploration.ipynb
-
 Here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers:
 ![box plot - conts](images/DataExplore-BoxPlot-conts.png)
 
