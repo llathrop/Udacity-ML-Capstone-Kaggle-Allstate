@@ -90,13 +90,14 @@ for details, please review: [preprocess_data.ipynb](https://github.com/llathrop/
 
 ### Implementation
 
-In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
-- _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
-- _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
-- _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
 The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available.
-1. [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb), mentioned above, will take the raw data and generate the data mentioned in the preprocessing section
-2. [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb)
+
+#### [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb): 
+
+As mentioned above, will take the raw data and generate the data mentioned in the preprocessing section
+
+#### [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb):
+
 Taking the data from preprocessing, we use each data set and first pick several SKLearn regressors, and combine them into a list for ease of use, along with several parameter/values dicts for use in grid search. We'll then split the provided train dataset into a new train and validation sets, for use in par(80/20 split). Using the new train data, we will run a grid search for each of the selected models, creating a list of regressors with parameters set from the search, and saved to disk for ease of reuse.
 
 We'll follow this by using xgb.cv() to find the best n_rounds for a set of parameters that have been manually selected and experimentally optimized. The train and validation sets are discarded, as we will now work split the entire train set into k-folds(K=5) for the first layer.
@@ -106,7 +107,9 @@ For each fold we will use the current fold as the test set and train(or fit) the
 After the predictions are made for the first layer, they are averaged and a cluster is predicted and both added as a feature to the layer. Due to run time, first layer models are saved and loaded if present.
 
 Predictions are made at this stage for the test and validation set first layer also, and preserved.
-3.  [JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb):
+
+#### [JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb):
+
 The same process is followed for layer two, but with input data being the predictions, etc from the first layer. Following some setup of variables, etc, We choose if this run will be for the validation data, or for the competition test set. We load the data from the first layer for that dataset, and first set up a grid search for best hyperparameters for the regressors chosen for layer 2. Again, XGB follows a different structure, and is done seperatly. Cached results are used if appropriate in the grid search.
 
 Following this, we again make predictions via folding, as above, but training and predicting the new models on the predictions from the first layer models. We also track the MAE per run again, to track progress. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
