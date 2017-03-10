@@ -118,6 +118,8 @@ We may now begin the next layer. At this point, we no longer need to use the fol
 
 We now take the models built for layer 2 and 3, and use them to make predictions on the test data. It was found experimentally that the third layer predictions did not add value, but they have been left in as an example. The results of these final predictions are preserved and may the competion set, may at the point be submitted.
 
+This notebook is run twice, once for the validation set, and again if the competition submission is needed. The switch is made (if needed) by choosing the dataset in the setup section.
+
 * Please note that run time of layer1 and preprocessing may be prohibitive. To save time, download each of: [data](https://drive.google.com/open?id=0B6nundNlo3spWFNKRmZ3YjJUckE)/[cache](https://drive.google.com/open?id=0B6nundNlo3spNVJsSVRqTnJEQ0U)/[output](https://drive.google.com/open?id=0B6nundNlo3spMTlwd3hEQ0NQWEk), and unzip to the toplevel directory of the project. 
 
 ### Refinement
