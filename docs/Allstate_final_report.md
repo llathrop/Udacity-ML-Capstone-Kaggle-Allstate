@@ -48,10 +48,13 @@ We are provided training and test data set, where the training set includes the 
 Plan is to present several plots based on data, including a histogram for cont and categorical values, scatterplots for cont, and more.
 see DataExploration.ipynb
 
-here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers.
+Here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers:
 ![box plot - conts](images/DataExplore-BoxPlot-conts.png)
 
-for more about the data,including more stats and visualizations see: [DataExploration.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/DataExploration.ipynb)
+And we see that the in the categorical features, we many with a limited variation, but still a significant number that have a many answers, and a few that have a relative large number of answers:
+![DataExplore-cats-unique_values.png](images/DataExplore-cats-unique_values.png)
+
+For more stats and visualizations see: [DataExploration.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/DataExploration.ipynb)
 
 ### Algorithms and Techniques
 
