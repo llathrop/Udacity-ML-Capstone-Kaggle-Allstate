@@ -94,28 +94,34 @@ In this section, the process for which metrics, algorithms, and techniques that 
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
 - _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
-
+The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available.
+1. [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb), mentioned above, will take the raw data and generate the data mentioned in the preprocessing section
+2. [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb)
 Taking the data from preprocessing, we use each data set and first pick several SKLearn regressors, and combine them into a list for ease of use, along with several parameter/values dicts for use in grid search. We'll then split the provided train dataset into a new train and validation sets, for use in par(80/20 split). Using the new train data, we will run a grid search for each of the selected models, creating a list of regressors with parameters set from the search, and saved to disk for ease of reuse.
 
 We'll follow this by using xgb.cv() to find the best n_rounds for a set of parameters that have been manually selected and experimentally optimized. The train and validation sets are discarded, as we will now work split the entire train set into k-folds(K=5) for the first layer.
 
-for each fold we will use the current fold as the test set and train(or fit) the model on the rest of the data, x, making a prediction, y. The prediction for each fold will be made for each of the regressors that we have selected. The predictions for each fold will then be stacked together for use in the next layer. MAE (Mean Absolute Error) is logged so that we may track progress.
+For each fold we will use the current fold as the test set and train(or fit) the model on the rest of the data, x, making a prediction, y. The prediction for each fold will be made for each of the regressors that we have selected. The predictions for each fold will then be stacked together for use in the next layer. MAE (Mean Absolute Error) is logged so that we may track progress.
 
 After the predictions are made for the first layer, they are averaged and a cluster is predicted and both added as a feature to the layer. Due to run time, first layer models are saved and loaded if present.
 
-Predictions are made at this stage for the test and validation set first layer also, and preserved. work for layer 1 is done in: [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb)
+Predictions are made at this stage for the test and validation set first layer also, and preserved.
+3.  [JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb):
+The same process is followed for layer two, but with input data being the predictions, etc from the first layer. Following some setup of variables, etc, We choose if this run will be for the validation data, or for the competition test set. We load the data from the first layer for that dataset, and first set up a grid search for best hyperparameters for the regressors chosen for layer 2. Again, XGB follows a different structure, and is done seperatly. Cached results are used if appropriate in the grid search.
 
-*FIXME* The same process is followed for layer two, but with input data being the predictions, etc from the first layer. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
+Following this, we again make predictions via folding, as above, but training and predicting the new models on the predictions from the first layer models. We also track the MAE per run again, to track progress. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
 
-At this point, we are able to use the the models trained in each layer to make predictions for the test data, which follows the same cycle to the the third layer, where our final layer is predicted and output.
-*/FIXME - rewrite for detail above*
-[JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb)
+We may now begin the next layer. At this point, we no longer need to use the folds, as the predictions are not needed for another layer. we instead use a standard test/train split, only so that we may evaluate performance of the model. model fit and prediction proceed as normal.
+
+We now take the models built for layer 2 and 3, and use them to make predictions on the test data. It was found experimentally that the third layer predictions did not add value, but they have been left in as an example. The results of these final predictions are preserved and may the competion set, may at the point be submitted.
+
+* Please note that run time of layer1 and preprocessing may be prohibitive. To save time, download each of: [data](https://drive.google.com/open?id=0B6nundNlo3spWFNKRmZ3YjJUckE)/[cache](https://drive.google.com/open?id=0B6nundNlo3spNVJsSVRqTnJEQ0U)/[output](https://drive.google.com/open?id=0B6nundNlo3spMTlwd3hEQ0NQWEk), and unzip to the toplevel directory of the project. 
 
 ### Refinement
 
 Each regression was found to need individual tuning to achieve results, but as we were focused on the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and resuse of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
 
-At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made.
+At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made. These are preserved in the files above for ease of retrieval in the future
 
 The base technique of stacking was further refined by adding features via other methods, such as averaging and clustering the results of stage 1 models. Each of these was found to result in a small improvement in final score.
 
