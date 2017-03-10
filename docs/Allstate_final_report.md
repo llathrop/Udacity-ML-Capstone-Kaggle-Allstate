@@ -1,12 +1,12 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
-Bryan Luke Lathrop - March 7th, 2017
+Bryan Luke Lathrop - March 10th, 2017
 
 ## I. Definition
 
 ### Project Overview
 
-This project is based around the Kaggle competition detailed at: [allstate-claims-severity](https://www.kaggle.com/c/allstate-claims-severity)
+This project is based around the Kaggle competition detailed at: [Allstate-Claims-Severity](https://www.kaggle.com/c/allstate-claims-severity)
 
 This competition centered on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
 
@@ -20,7 +20,7 @@ Using the provided dataset, we will use various machine learning techniques to p
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using [MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
 
-[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirment) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
+[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirement) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
 
 Additionally, we will review prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 
@@ -45,17 +45,17 @@ We are provided training and test data set, where the training set includes the 
 
 ### Exploratory Visualization
 
-Plan is to present several plots based on data, including a histogram for cont and categorical values, scatterplots for cont, and more.
-see DataExploration.ipynb
-
-here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers.
+Here we can see a box plot of the conts values, showing that they are all close in value, but that a few do have outliers:
 ![box plot - conts](images/DataExplore-BoxPlot-conts.png)
 
-for more about the data,including more stats and visualizations see: [DataExploration.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/DataExploration.ipynb)
+And we see that the in the categorical features, we see that many features have limited variation, but still a significant number have a many answers, and a few that have a relative large number of answers:
+![DataExplore-cats-unique_values.png](images/DataExplore-cats-unique_values.png)
+
+For more stats and visualizations see: [DataExploration.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/DataExploration.ipynb)
 
 ### Algorithms and Techniques
 
-We will use various pre-processing techniques to generate new features and otherwise prepare the data. Following this we will use various sklearn regressors, optimized with grid search, and xgbost to generate the first layer of an ensemble model using stacking. The following layers will use similar regressions on the output of the prior layers, with the final layer providing a final prediction for each input.
+We will use various pre-processing techniques to generate new features and otherwise prepare the data. Following this we will use various SKLearn regressors, optimized with grid search, and XGBoost to generate the first layer of an ensemble model using stacking. The following layers will use similar regressions on the output of the prior layers, with the final layer providing a final prediction for each input.
 
 The model will output a predicted 'loss' for each claim in the validation data. Once trained and satisfactory scores are obtained with the validation data, the model will be retrained on the full data set and predictions made on the test data. The result will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.
 
@@ -65,15 +65,21 @@ The model will output a predicted 'loss' for each claim in the validation data. 
 
 ### Benchmark
 
-The benchmark model for this project is a simple linear regression based on the data, with the same pre-processing, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. We'll also run the benchmark against the various datasets created during preproccessing, to demonstrate the effects it has, and that this didn't create a benchmark better that the final model. In other words we will demonstrate that the score improvement is of the final model is not due to pre-processing.
+The benchmark model for this project is a simple linear regression based on the data, with the same pre-processing, and run first with the initial data minus a validation set and once scoring appropriately, submitted for scoring according to the previously mentioned method. This will provide a definitive measurement of the improvement we see in the final model. We'll also run the benchmark against the various datasets created during pre-processing, to demonstrate the effects it has, and that this didn't create a benchmark better that the final model. In other words we will demonstrate that the score improvement is of the final model is not due to pre-processing.
 
 ## III. Methodology
 
 ### Data Preprocessing
+To prepare the data, several tasks take place
+
+* The train/validation and test data from the contests is combined
+* Categorical data is be transformed to numerical (see LabelEncoder() function), using factorize
+* All data is MinMax scaled, 0-1, using the SKLearn MinMaxScaler()
+* Unneeded features will be removed(ex:id)
 
 additionally:
 * new features will be created:
-    * clusters for each row, for just continous features, for just categorical. Clusters are computed by first taking a subset of the      data and calculating the Kmeans cluster for each, with startingClusterSize=int(len(data)*.075). The cluster centers for this are        then used to calculate the number of actual clusters with Meanshift(). Kmeans is then re-run again using this number of clusters.        This is done to provide a significant performance boost over using either one on it's own.The final cluster # is scaled 0-1, to         better fit with regressors that prefer it see: [on-mean-shift-and-k-means-clustering](http://jamesxli.blogspot.com/2012/03/on-mean-shift-and-k-means-clustering.html)
+    * clusters for each row, for just continuous features, for just categorical. Clusters are computed by first taking a subset of the      data and calculating the Kmeans cluster for each, with startingClusterSize=int(len(data)*.075). The cluster centers for this are        then used to calculate the number of actual clusters with Meanshift(). Kmeans is then re-run again using this number of clusters.        This is done to provide a significant performance boost over using either one on it's own. The final cluster # is scaled 0-1, to         better fit with regressors that prefer it see: [on-mean-shift-and-k-means-clustering](http://jamesxli.blogspot.com/2012/03/on-mean-shift-and-k-means-clustering.html)
     * various features may be modified due to relevance.
 * features will be analyzed for relevance using PCA(FIXME)
 
@@ -87,32 +93,43 @@ for details, please review: [preprocess_data.ipynb](https://github.com/llathrop/
 
 ### Implementation
 
-In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
-- _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
-- _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
-- _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
+The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available.
+
+#### [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb): 
+
+As mentioned above, will take the raw data and generate the data mentioned in the preprocessing section
+
+#### [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb):
 
 Taking the data from preprocessing, we use each data set and first pick several SKLearn regressors, and combine them into a list for ease of use, along with several parameter/values dicts for use in grid search. We'll then split the provided train dataset into a new train and validation sets, for use in par(80/20 split). Using the new train data, we will run a grid search for each of the selected models, creating a list of regressors with parameters set from the search, and saved to disk for ease of reuse.
 
 We'll follow this by using xgb.cv() to find the best n_rounds for a set of parameters that have been manually selected and experimentally optimized. The train and validation sets are discarded, as we will now work split the entire train set into k-folds(K=5) for the first layer.
 
-for each fold we will use the current fold as the test set and train(or fit) the model on the rest of the data, x, making a prediction, y. The prediction for each fold will be made for each of the regressors that we have selected. The predictions for each fold will then be stacked together for use in the next layer. MAE (Mean Absolute Error) is logged so that we may track progress.
+For each fold we will use the current fold as the test set and train(or fit) the model on the rest of the data, x, making a prediction, y. The prediction for each fold will be made for each of the regressors that we have selected. The predictions for each fold will then be stacked together for use in the next layer. MAE (Mean Absolute Error) is logged so that we may track progress.
 
 After the predictions are made for the first layer, they are averaged and a cluster is predicted and both added as a feature to the layer. Due to run time, first layer models are saved and loaded if present.
 
-Predictions are made at this stage for the test and validation set first layer also, and preserved. work for layer 1 is done in: [JustStacking-Layer1.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking-Layer1.ipynb)
+Predictions are made at this stage for the test and validation set first layer also, and preserved.
 
-*FIXME* The same process is followed for layer two, but with input data being the predictions, etc from the first layer. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
+#### [JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb):
 
-At this point, we are able to use the the models trained in each layer to make predictions for the test data, which follows the same cycle to the the third layer, where our final layer is predicted and output.
-*/FIXME - rewrite for detail above*
-[JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb)
+The same process is followed for layer two, but with input data being the predictions from the first layer. Following some setup of variables, etc, We choose if this run will be for the validation data, or for the competition test set. We load the data from the first layer for that dataset, and first set up a grid search for best hyper-parameters for the regressors chosen for layer 2. Again, XGB follows a different structure, and is done separatly. Cached results are used if appropriate in the grid search.
+
+Following this, we again make predictions via folding, as above, but training and predicting the new models on the predictions from the first layer models. We also track the MAE per run again, to track progress. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
+
+We may now begin the next layer. At this point, we no longer need to use the folds, as the predictions are not needed for another layer. we instead use a standard test/train split, only so that we may evaluate performance of the model. model fit and prediction proceed as normal.
+
+We now take the models built for layer 2 and 3, and use them to make predictions on the test data. It was found experimentally that the third layer predictions did not add value, but they have been left in as an example. The results of these final predictions are preserved and the competition  set may at this point be submitted.
+
+This notebook is run twice, once for the validation set, and again if the competition submission is needed. The switch is made (if needed) by choosing the dataset in the setup section.
+
+* Please note that run time of layer1 and preprocessing may be prohibitive. To save time, download each of: [data](https://drive.google.com/open?id=0B6nundNlo3spWFNKRmZ3YjJUckE)/[cache](https://drive.google.com/open?id=0B6nundNlo3spNVJsSVRqTnJEQ0U)/[output](https://drive.google.com/open?id=0B6nundNlo3spMTlwd3hEQ0NQWEk), and unzip to the top level directory of the project. 
 
 ### Refinement
 
-Each regression was found to need individual tuning to achieve results, but as we were focused on the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and resuse of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
+Each regression was found to need individual tuning to achieve results, but as we were focused on the final output of the stack, more time was spent refining the stacking techniques. It was found that due to the run time of the full model, especially operations like grid search, caching and re-use of the results was perhaps the most important step in the process, with each stage being broken out and and intermediate output of stages being preserved for later use.
 
-At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made.
+At each stage of the process, it was found helpful to provide intermediate results, to ensure that progress has been made. These are preserved in the files above for ease of retrieval in the future
 
 The base technique of stacking was further refined by adding features via other methods, such as averaging and clustering the results of stage 1 models. Each of these was found to result in a small improvement in final score.
 
@@ -135,19 +152,18 @@ In our stacked regression against all train data and the combined datasets we se
 
 These scores were also validated via submission to Kaggle. For the linear set, the best score were:(Private)1272.27333, (Public)1264.60772. For the Stacked set, the best score was: (Private)1132.97728, (Public)1119.72524. These match well with our validation set and training set scores.
 
-Using these numbers we can see an approximatly 11-12% improvement in score over our benchmark, and a 7% improvement over the best regressor score seen in layer 1.
+Using these numbers we can see an approximately  11-12% improvement in score over our benchmark, and a 7% improvement over the best regressor score seen in layer 1.
 
 ## V. Conclusion
 
 ### Free-Form Visualization
 
-The goal of the project was to show the benefit of combining models. We can see this by taking a look at these results, and comparing lowest MAE
-
+The goal of the project was to show the benefit of combining models. We can see this by taking a look at these results, and comparing lowest MAE.
 
 First we see the results with a standard Linear regression. Results are shown for each dataset so that we can see the different scores. We can clearly see that adding data give a better score, and although harder to see, that the created features improved the score
 ![Linear-MAE_per_dataset.png](images/Linear-MAE_per_dataset.png)
 
-Next we have a look at results of each fold, for each of the regressors used...This is roughly equivilant to how they would perform without further stacking. We again see the improvment of more data, and we can also see that XGB gives the lowest score of any regressor we have tried.
+Next we have a look at results of each fold, for each of the regressors used...This is roughly equivalent  to how they would perform without further stacking. We again see the improvement  of more data, and we can also see that XGB gives the lowest score of any regressor we have tried.
 ![Layer1-per_run_MAE.png](images/Layer1-per_run_MAE.png)
 
 And finally, a look at each fold as we run through layer 2 & 3. We can see that we actually get a better score in layer 2, using a linear regression on the results from the first layer. Using this it was determined that adding layer 3 did not contribute to the final product, and in the end the best submission was based on the linear regression from layer 2.
@@ -156,39 +172,29 @@ And finally, a look at each fold as we run through layer 2 & 3. We can see that 
 
 ### Reflection
 
-In this project we have demonstrated the benefits of stacking several models to improve the final score, which also demonstrated the effeciveness of the individual models. The individual models were optimized via methods such as grid-search and then fit to various pre-processed datasets. The predictions of these models were then "stacked" and a further model was optomized and fit to the new data.
+In this project we have demonstrated the benefits of stacking several models to improve the final score, which also demonstrated the effectiveness  of the individual models. The individual models were optimized via methods such as grid-search and then fit to various pre-processed datasets. The predictions of these models were then "stacked" and a further model was optimized  and fit to the new data.
 
-While the improvement in score from the stacking was interesting, I found the optomization of each model in layer 1 to be the more interesting portion of the project.Although this tuning didn't allow a model to go below the stacked score, it would would in-turn drop the final stacked score by several points.
+While the improvement in score from the stacking was interesting, I found the optimization of each model in layer 1 to be the more interesting portion of the project. Although this tuning didn't allow a model to go below the stacked score, it would in-turn drop the final stacked score by several points.
 
 The project presented several challenges, namely automating the training/prediction of several different models, and minimizing time spent. Each model required different tuning and some organization was required to allow for that. One model(XGB), was not able to easily be matched to the style of the others, and had to be dealt with as an exception.
 
-In addition, many of the models have relativly long training/prediction times. This affects the project in several places, as training/prediction is a natural part of hyperparameter optimization, and we used many different data sets. although a full timing was never conducted, I would estimate that on the hardware I used (32-core Google Cloud - Compute Engine), to regenerate my results would take in the area of a week. To mitigate this, I cached various results, and loaded them if present.
+In addition, many of the models have relatively  long training/prediction times. This affects the project in several places, as training/prediction is a natural part of hyper-parameter optimization, and we used many different data sets. Although a full timing was never conducted, I would estimate that on the hardware I used (32-core Google Cloud - Compute Engine), to regenerate my results would take in the area of a week. To mitigate this, I cached various results, and loaded them if present.
 
-In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectivenes of the stacking method. Specifically, Stacking seems to be one method that should be used in general practise, when an improvement in score may not be possible from using a single model.
+In the end, I believe that the project accomplished my goal of demonstrating various machine learning strategies, and the effectiveness  of the stacking method. Specifically, Stacking seems to be one method that should be used in general practice, when an improvement in score may not be possible from using a single model.
 
 ### Improvement
 
 To further improve the project implementation, we would  approach three basic areas:
-* notebooks:
+* Notebooks:
    The project evolved as a series of jupyter notebooks, and remained that way throughout implementation. While a wonderful way to iterate code, it does not lend itself to repeat or automated use. A first, simple way to improve the project is to move most or all of the code into regular python scripts, and break some of the widely used and copied portions off into their own libraries
-* code organization:
+* Code organization/re-factor:
    Related to the codes evolution as a notebook, significant re-factoring of the code would be suggested to allow for improved readability/maintainability. Especially related to the fit and predict aspects, which could be moved into a new class that might take a data set in and fit it to each of the models, predict, etc.
    
-*However, most benefits to the score performance would be acheived by:*   
+*However, most benefits to the score performance would be achieved  by:*   
 
-* more models:
-   By adding even more models to the first layer we would expect to see our best performance improvement in score. Improvements are likely to be seen even by using similar models, but fit with different hyperparameters, such that they respond to different aspects of the data. This project followed guidlines from a Kaggle competition, and the winners of the competition used in the area of 80 or more models, fit to the data with and without additional generated features. 
+* More models!:
+   By adding even more models to the first layer we would expect to see our best performance improvement in score. Improvements are likely to be seen even by using similar models, but fit with different hyper-parameters, such that they respond to different aspects of the data. This project followed guidelines from a Kaggle competition, and the winners of the competition used in the area of 80 or more models, fit to the data with and without additional generated features. 
    
-I think that it's clear that while this implementation is an improvement over the benchmark choosen, further improvement is firmly within reach by addressing the areas mentioned above.
+I think that it's clear that while this implementation is an improvement over the benchmark chosen, further improvement is firmly within reach by addressing the areas mentioned above.
 
 -----------
-
-**Before submitting, ask yourself. . .**
-
-- Does the project report you?ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?
