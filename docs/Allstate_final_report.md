@@ -196,13 +196,3 @@ To further improve the project implementation, we would  approach three basic ar
 I think that it's clear that while this implementation is an improvement over the benchmark choosen, further improvement is firmly within reach by addressing the areas mentioned above.
 
 -----------
-
-**Before submitting, ask yourself. . .**
-
-- Does the project report you?ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?
