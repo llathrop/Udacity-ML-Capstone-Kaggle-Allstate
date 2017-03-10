@@ -70,6 +70,12 @@ The benchmark model for this project is a simple linear regression based on the 
 ## III. Methodology
 
 ### Data Preprocessing
+To prepare the data, several tasks take place
+
+* The train/validation and test data from the contests is combined
+* Categorical data is be transformed to numerical (see LabelEncoder() function), using factorize
+* All data is MinMax scaled, 0-1, using the sklean MinMaxScaler()
+* Unneeded features will be removed(ex:id)
 
 additionally:
 * new features will be created:
