@@ -186,14 +186,14 @@ In the end, I believe that the project accomplished my goal of demonstrating var
 ### Improvement
 
 To further improve the project implementation, we would  approach three basic areas:
-* notebooks:
+* Notebooks:
    The project evolved as a series of jupyter notebooks, and remained that way throughout implementation. While a wonderful way to iterate code, it does not lend itself to repeat or automated use. A first, simple way to improve the project is to move most or all of the code into regular python scripts, and break some of the widely used and copied portions off into their own libraries
-* code organization:
+* Code organization/re-factor:
    Related to the codes evolution as a notebook, significant re-factoring of the code would be suggested to allow for improved readability/maintainability. Especially related to the fit and predict aspects, which could be moved into a new class that might take a data set in and fit it to each of the models, predict, etc.
    
 *However, most benefits to the score performance would be acheived by:*   
 
-* more models:
+* More models!:
    By adding even more models to the first layer we would expect to see our best performance improvement in score. Improvements are likely to be seen even by using similar models, but fit with different hyperparameters, such that they respond to different aspects of the data. This project followed guidlines from a Kaggle competition, and the winners of the competition used in the area of 80 or more models, fit to the data with and without additional generated features. 
    
 I think that it's clear that while this implementation is an improvement over the benchmark choosen, further improvement is firmly within reach by addressing the areas mentioned above.
