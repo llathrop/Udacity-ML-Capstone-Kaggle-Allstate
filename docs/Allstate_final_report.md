@@ -1,6 +1,6 @@
 # Machine Learning Engineer Nanodegree
 ## Capstone Project
-Bryan Luke Lathrop - March 10th, 2017
+Bryan Luke Lathrop - March 14th, 2017
 
 ## I. Definition
 
