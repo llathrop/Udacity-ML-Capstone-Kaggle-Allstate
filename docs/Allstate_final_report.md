@@ -22,7 +22,7 @@ To solve our problem, we will attempt to create a regression model that uses the
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using [MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
 
-[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirement) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers. In our problem, we will generate MAE by inputing the prediction we make vs the known value of loss in the training set into the formula above.
+[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirement) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers. In our problem, we will generate MAE by inputting the prediction we make vs the known value of loss in the training set into the formula above.
 
 Additionally, we will review prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 
@@ -85,7 +85,7 @@ To prepare the data, several tasks take place
 * The train/validation and test data from the contests is combined
 * Categorical data is be transformed to numerical (see LabelEncoder() function), using factorize
 * All data is MinMax scaled, 0-1, using the SKLearn MinMaxScaler()
-* Unneeded features will be removed(ex:id)
+* Unneeded features will be removed(ex: id)
 
 additionally:
 * new features will be created:
@@ -103,7 +103,7 @@ for details, please review: [preprocess_data.ipynb](https://github.com/llathrop/
 
 ### Implementation
 
-The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available. It was found to be easier to to both understand the process, and to review/rewrite each major section if they were seperated.
+The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available. It was found to be easier to to both understand the process, and to review/rewrite each major section if they were separated.
 
 #### [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb): 
 
@@ -123,7 +123,7 @@ Predictions are made at this stage for the test and validation set first layer a
 
 #### [JustStacking.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/JustStacking.ipynb):
 
-The same process is followed for layer two, but with input data being the predictions from the first layer. Following some setup of variables, etc, We choose if this run will be for the validation data, or for the competition test set. We load the data from the first layer for that dataset, and first set up a grid search for best hyper-parameters for the regressors chosen for layer 2. Again, XGB follows a different structure, and is done separatly. Cached results are used if appropriate in the grid search.
+The same process is followed for layer two, but with input data being the predictions from the first layer. Following some setup of variables, etc, We choose if this run will be for the validation data, or for the competition test set. We load the data from the first layer for that dataset, and first set up a grid search for best hyper-parameters for the regressors chosen for layer 2. Again, XGB follows a different structure, and is done separately. Cached results are used if appropriate in the grid search.
 
 Following this, we again make predictions via folding, as above, but training and predicting the new models on the predictions from the first layer models. We also track the MAE per run again, to track progress. While the average value of the 2nd layer predictions was found to add value, clusters were not at this layer. The predictions from the 2nd layer are then fed to a final regressor for our final train/predict cycle.
 
@@ -152,7 +152,7 @@ During initial training stages, the models used for layer 1 were: XGB, Ridge, an
 After the initial setup, RandomForestRegressor and LinearRegression were added to layer 1 and KNN to layer 2. These were found to improve the result, with an MAE score of approximately 1150 for contests submission. additional datasets were also generated, in combinations, such as all original features, only new features, etc.
 Later, we added SVR to layer 1, which added significantly to run time of the model, and did not generate but a minor uptick in score. It's generated predictions were preserved, but it would not be added to a production model, due to the run time issues.
  
-For the final implementation, further time was spent tuning XGB, where a lower score from XGB in layer 1 was found to drop the final score a similar amount.The primary parameters tuned were: colsample_bytree,subsample, and max_depth. It was also found that XGB did not generate best results in layer 2, and that layer 3 was not needed. In the end, the best results were found to come from a linear regression at layer 2, with final scores in 1119 range for the public competition data set.
+For the final implementation, further time was spent tuning XGB, where a lower score from XGB in layer 1 was found to drop the final score a similar amount. The primary parameters tuned were: colsample_bytree, subsample, and max_depth. It was also found that XGB did not generate best results in layer 2, and that layer 3 was not needed. In the end, the best results were found to come from a linear regression at layer 2, with final scores in 1119 range for the public competition data set.
 
 
 ## IV. Results
@@ -173,7 +173,7 @@ These scores were also validated via submission to Kaggle. For the linear set, t
 
 Using these numbers we can see an approximately  11-12% improvement in score over our benchmark, and a 7% improvement over the best regressor score seen in layer 1.
 
-It may also be noted that in comparison to the best scoring individual model used(XGB), the stacked model takes a significant time/resource increase in traing stages, related to the final number and selection of models used for the first layer. Depending on the models selected, we can also see a large increase in prediction time/resource usage, although this increase can be managed a bit more by selecting fast predicting models. In real world use, the increase in score must be balanced against these increases resource usage.
+It may also be noted that in comparison to the best scoring individual model used(XGB), the stacked model takes a significant time/resource increase in training stages, related to the final number and selection of models used for the first layer. Depending on the models selected, we can also see a large increase in prediction time/resource usage, although this increase can be managed a bit more by selecting fast predicting models. In real world use, the increase in score must be balanced against these increases resource usage.
 
 ## V. Conclusion
 
