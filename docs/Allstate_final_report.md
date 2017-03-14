@@ -103,7 +103,7 @@ for details, please review: [preprocess_data.ipynb](https://github.com/llathrop/
 
 ### Implementation
 
-The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available.
+The project is implemented as a series of Jupyter notebooks, intended to be run in order, and using cached data if available. It was found to be easier to to both understand the process, and to review/rewrite each major section if they were seperated.
 
 #### [preprocess_data.ipynb](https://github.com/llathrop/udacity-ML-capstone-Kaggle-Allstate/blob/master/preprocess_data.ipynb): 
 
@@ -143,7 +143,16 @@ At each stage of the process, it was found helpful to provide intermediate resul
 
 The base technique of stacking was further refined by adding features via other methods, such as averaging and clustering the results of stage 1 models. Each of these was found to result in a small improvement in final score.
 
-After the initial version of stacking with linear/xgb/ExtraTreesRegressor as the layer 1 models, the largest improvement was found by adding additional models and using them with each variant of the data.
+After the initial version of stacking with linear/xgb/ExtraTreesRegressor as the layer 1 models, the largest improvement was found by adding additional models and using them with each variant of the data. It could be said that the hyperparameters for the overall model are really the selected models used at each layer. 
+
+Only minor tuning of any given model was done. As this was a dataset from a Kaggle competition, many implementations of various base models was available for comparison, so it was simple to verify that a model with initial inputs, as tuned via a gridsearch, were reaching a reasonable result. The inputs to gridsearch remained static for the duration. XGB parameters were determined experimentally, with different parameters providing different results. 
+
+During initial training stages, the models used for layer 1 were: XGB, Ridge, and ExtraTreesRegressor. At layer 2 we again used XGB and also Linear Regression, and the final layer again used XGB. This was found to present a reasonable speed for training as the model was refined. MAE score during this section was in the area of 1200 for contest submissions.
+
+After the initial setup, RandomForestRegressor and LinearRegression were added to layer 1 and KNN to layer 2. These were found to improve the result, with an MAE score of approximately 1150 for contests submission. additional datasets were also generated, in combinations, such as all original features, only new features, etc.
+Later, we added SVR to layer 1, which added significantly to run time of the model, and did not generate but a minor uptick in score. It's generated predictions were preserved, but it would not be added to a production model, due to the run time issues.
+ 
+For the final implementation, further time was spent tuning XGB, where a lower score from XGB in layer 1 was found to drop the final score a similar amount.The primary parameters tuned were: colsample_bytree,subsample, and max_depth. It was also found that XGB did not generate best results in layer 2, and that layer 3 was not needed. In the end, the best results were found to come from a linear regression at layer 2, with final scores in 1119 range for the public competition data set.
 
 
 ## IV. Results
@@ -163,6 +172,8 @@ In our stacked regression against all train data and the combined datasets we se
 These scores were also validated via submission to Kaggle. For the linear set, the best score were:(Private)1272.27333, (Public)1264.60772. For the Stacked set, the best score was: (Private)1132.97728, (Public)1119.72524. These match well with our validation set and training set scores.
 
 Using these numbers we can see an approximately  11-12% improvement in score over our benchmark, and a 7% improvement over the best regressor score seen in layer 1.
+
+It may also be noted that in comparison to the best scoring individual model used(XGB), the stacked model takes a significant time/resource increase in traing stages, related to the final number and selection of models used for the first layer. Depending on the models selected, we can also see a large increase in prediction time/resource usage, although this increase can be managed a bit more by selecting fast predicting models. In real world use, the increase in score must be balanced against these increases resource usage.
 
 ## V. Conclusion
 
