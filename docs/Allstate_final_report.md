@@ -61,9 +61,17 @@ We will use various pre-processing techniques to generate new features and other
 
 The model will output a predicted 'loss' for each claim in the validation data. Once trained and satisfactory scores are obtained with the validation data, the model will be retrained on the full data set and predictions made on the test data. The result will then be submitted to the Kaggle competition, where a score will be assigned to the model. The solutions score will be evaluated using the mean absolute error(MAE) between the actual and predicted loss.
 
-*  [XGBoost](http://xgboost.readthedocs.io/)
-*  [Scikit-learn](http://scikit-learn.org/)
-*  [Stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking)
+*  [Scikit-learn](http://scikit-learn.org/): A well-regarded tool kit for Machine Learning, we will use several regressors from here to make predictions. some examples are:
+   * Linear - The standard for all regression tasks, it attempts to fit a line to a dataset
+   * Ridge - a Linear least squares with l2 regularization
+   * RandomForestRegressor -an ensemble method, creates a decision tree drawn on subsets of the features(with replacement)
+   * ExtraTreesRegressor - similar to RandomForestRegressor, with an extra layer of randomness in how each split in the tree is created
+   * KNeighborsRegressor - uses the nearest neigbors to make the prediction
+   * SVR - a libsvm based estimator that uses a seperating hyperplain to make it's prediction
+*  [XGBoost](http://xgboost.readthedocs.io/): A powerful variant of gradient boosted trees.
+*  [Stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking): a method where in the predictions from several models are combined and used as the input to a new model, used to make a final prediction
+
+![Drawing-Model-Architecture](images/Drawing-Model-Architecture.png)
 
 ### Benchmark
 
