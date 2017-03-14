@@ -68,7 +68,7 @@ The model will output a predicted 'loss' for each claim in the validation data. 
    * ExtraTreesRegressor - similar to RandomForestRegressor, with an extra layer of randomness in how each split in the tree is created
    * KNeighborsRegressor - uses the nearest neigbors to make the prediction
    * SVR - a libsvm based estimator that uses a seperating hyperplain to make it's prediction
-*  [XGBoost](http://xgboost.readthedocs.io/): A powerful variant of gradient boosted trees.
+*  [XGBoost](http://xgboost.readthedocs.io/): A powerful variant of gradient boosted trees. We will use this as an additional regressor, similar to the ones from scikit-learn,
 *  [Stacking](https://en.wikipedia.org/wiki/Ensemble_learning#Stacking): a method where in the predictions from several models are combined and used as the input to a new model, used to make a final prediction
 
 ![Drawing-Model-Architecture](images/Drawing-Model-Architecture.png)
