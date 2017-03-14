@@ -8,7 +8,7 @@ Bryan Luke Lathrop - March 10th, 2017
 
 This project is based around the Kaggle competition detailed at: [Allstate-Claims-Severity](https://www.kaggle.com/c/allstate-claims-severity)
 
-This competition centered on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field.
+This competition centered on the idea that the severity(or cost) of a claim may be predicted based on the several factors in the data set. Much of the work in statistics to date has been used by the insurance industry in pursuit of this goal, and this particular challenge is aimed at recruiting the participants for work in an already tested field. 
 
 I choose this competition as it dataset and goals allow us to explore various machine learning techniques without focusing on data collection. I also believe that the techniques and goal used are very close in style to those used in industry currently, and so more applicable to future projects.
 
@@ -16,11 +16,13 @@ I choose this competition as it dataset and goals allow us to explore various ma
 
 Using the provided dataset, we will use various machine learning techniques to predict the claims severity. The general type of techniques to be used is know as a "regression". Claim severity is expressed as a cost, where a higher cost is a higher severity. The predictions will be made on a per claim basis, and are intended to be applied to future claims as an indicator for customers/agents. The data does not provide a description of the features, and so we must use information analysis techniques to present a solution. 
 
+To solve our problem, we will attempt to create a regression model that uses the features of the training data to make a prediction about claim severity, known as "loss". This model will then be used to make a prediction on the test sets. Our expected solution will use a technique known as "stacking" to combine the predictions of several standard regressors trained on variations of the data into a new data set. This new dataset will then be used with several new regressors to make predictions for a final layer, where once again a new regressor will be used to make a final prediction of loss. Stacking the models in this manner is expected to improve the score over any of the individual models abilities.
+
 ### Metrics
 
 The project success may be evaluated on the improvement in score over the benchmark model, as returned from the competition. Both models will be trained using the same data and submitted for the same test data. As we are using [MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) for scoring, we will be looking for the lowest score as the winner. Since we can't verify the test set directly, we will further break out a validation set from the train data, for use as our own test set for the purpose of validating the models before use with the provided test set. This validation set will be sized to about 20% of the train data.
 
-[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirement) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers.
+[MAE](https://en.wikipedia.org/wiki/Mean_absolute_error) score is defined as the mean of the absolute value of the real minus predicted values of each row in the validation/test data sets: 1/n sum(abs(each_predicted_y-each_real_y))) The advantage of MAE (other than being a contest requirement) is that it provides a simple measurement of the error of a prediction that disregards the sign of the error and doesn't over-emphasize outliers. In our problem, we will generate MAE by inputing the prediction we make vs the known value of loss in the training set into the formula above.
 
 Additionally, we will review prediction time for the scores achieved, as well as training time, in an effort to quantify the effort needed to use the score in a production environment. These times will be used with the final scores to determine viability of the model
 
