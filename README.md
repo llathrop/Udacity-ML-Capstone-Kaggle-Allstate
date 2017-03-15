@@ -17,3 +17,4 @@ I should note that input data is not included, but may be downloaded at the comp
 * [Project Proposal](docs/Allstate_Proposal.md) 
 * [Final Report](docs/Allstate_final_report.md)
 
+ *Project completion date: 3/14/2017*
