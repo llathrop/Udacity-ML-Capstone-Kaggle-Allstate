@@ -17,5 +17,4 @@ I should note that input data is not included, but may be downloaded at the comp
 * [Project Proposal](Allstate_Proposal.md) 
 * [Final Report](Allstate_final_report.md)
 
-To save time, download each of: [data](https://drive.google.com/open?id=0B6nundNlo3spWFNKRmZ3YjJUckE)/[cache](https://drive.google.com/open?id=0B6nundNlo3spNVJsSVRqTnJEQ0U)/[output](https://drive.google.com/open?id=0B6nundNlo3spMTlwd3hEQ0NQWEk), and unzip to the top level directory of the project. 
-
+ *Project completion date: 3/14/2017*
